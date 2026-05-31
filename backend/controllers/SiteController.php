@@ -15,9 +15,6 @@ use yii\web\Response;
  */
 class SiteController extends Controller
 {
-    /**
-     * behaviors corregido para SiteController
-     */
     public function behaviors()
     {
         return [
@@ -25,12 +22,10 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        // Permitimos login y error a todos (invitados)
                         'actions' => ['login', 'error'],
                         'allow' => true,
                     ],
                     [
-                        // El Index solo para Admin Activos
                         'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -40,7 +35,6 @@ class SiteController extends Controller
                         }
                     ],
                     [
-                        // Logout para cualquier usuario logueado
                         'actions' => ['logout'],
                         'allow' => true,
                         'roles' => ['@'],
@@ -56,30 +50,47 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function actions()
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
     }
 
-    /**
-     * Displays homepage.
-     */
     public function actionIndex()
     {
-        return $this->render('index');
+        $firebase = new \backend\components\FirebaseService();
+
+        // Procesamos las peticiones POST desde la vista
+        if (Yii::$app->request->isPost) {
+            $post = Yii::$app->request->post();
+            
+            if (isset($post['accion_tipo'])) {
+                if ($post['accion_tipo'] == 'ajustar') {
+                    $firebase->createReporte($post['contenedor'], $post['nivel'], 'Aumento Manual Web');
+                } 
+                elseif ($post['accion_tipo'] == 'vaciar') {
+                    $firebase->createReporte($post['contenedor'], 0, 'Contenedor vaciado Web');
+                } 
+                elseif ($post['accion_tipo'] == 'manual') {
+                    $firebase->createReporte($post['nuevo_nombre'], $post['nuevo_nivel'], 'Ingreso Manual Web');
+                }
+                
+                // Forzamos redirección limpia para evitar re-envíos duplicados de formulario
+                return $this->refresh();
+            }
+        }
+
+        // Jalamos la lista de reportes actualizada de Firestore
+        $reportes = $firebase->getReportes();
+
+        return $this->render('index', [
+            'reportes' => $reportes
+        ]);
     }
 
-    /**
-     * Login action.
-     */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -99,9 +110,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Logout action.
-     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
