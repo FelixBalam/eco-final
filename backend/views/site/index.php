@@ -248,7 +248,7 @@ function obtenerBgProgreso($nivel) {
                                 <input type="hidden" name="accion_tipo" value="manual">
                                 <div class="mb-3">
                                     <label class="form-label text-muted small fw-bold">Nombre del Residuo</label>
-                                    <input type="text" name="nuevo_nombre" class="form-control" placeholder="Ej. Cartón o Vidrio" required>
+                                    <input type="text" name="nuevo_nombre" class="form-control" placeholder="Ej. Plástico o Metal" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label text-muted small fw-bold">Nivel de Entrada (%)</label>
