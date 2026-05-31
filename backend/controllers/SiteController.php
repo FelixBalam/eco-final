@@ -10,9 +10,6 @@ use yii\web\Controller;
 use common\models\PermisosHelpers;
 use yii\web\Response;
 
-/**
- * Site controller
- */
 class SiteController extends Controller
 {
     public function behaviors()
@@ -26,7 +23,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'crud-plastico', 'crud-metal', 'crud-otros'],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
@@ -63,7 +60,6 @@ class SiteController extends Controller
     {
         $firebase = new \backend\components\FirebaseService();
 
-        // Procesamos las peticiones POST desde la vista
         if (Yii::$app->request->isPost) {
             $post = Yii::$app->request->post();
             
@@ -78,17 +74,39 @@ class SiteController extends Controller
                     $firebase->createReporte($post['nuevo_nombre'], $post['nuevo_nivel'], 'Ingreso Manual Web');
                 }
                 
-                // Forzamos redirección limpia para evitar re-envíos duplicados de formulario
                 return $this->refresh();
             }
         }
 
-        // Jalamos la lista de reportes actualizada de Firestore
         $reportes = $firebase->getReportes();
 
         return $this->render('index', [
             'reportes' => $reportes
         ]);
+    }
+
+    /**
+     * Módulo del Contenedor de Plástico - Asignado a Jafet
+     */
+    public function actionCrudPlastico()
+    {
+        return $this->render('crud_plastico');
+    }
+
+    /**
+     * Módulo del Contenedor de Metal - Asignado a Alejandra
+     */
+    public function actionCrudMetal()
+    {
+        return $this->render('crud_metal');
+    }
+
+    /**
+     * Módulo del Contenedor de Otros - Asignado a Omar
+     */
+    public function actionCrudOtros()
+    {
+        return $this->render('crud_otros');
     }
 
     public function actionLogin()
