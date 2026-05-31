@@ -50,26 +50,7 @@ function obtenerBgProgreso($nivel) {
 ?>
 
 <div class="container-fluid p-0">
-    <div class="col-md-10 offset-md-2 bg-light min-vh-100">
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
-            <div class="container-fluid">
-                <span class="navbar-brand fw-bold text-success">Dashboard Principal</span>
-                <div class="d-flex align-items-center">
-                    <div class="me-3 text-secondary"><?= date('d/m/Y') ?></div>
-                    <div class="dropdown">
-                        <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <?= Yii::$app->user->identity->username ?? 'Invitado' ?>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><?= Html::a('Perfil', ['perfil/index'], ['class' => 'dropdown-item']) ?></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><?= Html::a('Cerrar Sesión', ['site/logout'], ['class' => 'dropdown-item', 'data-method' => 'post']) ?></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
+    <div class="bg-light min-vh-100">
 
         <div class="container-fluid p-4">
 
@@ -80,8 +61,8 @@ function obtenerBgProgreso($nivel) {
                             <h1 class="display-5 fw-bold text-success">♻ Sistema Inteligente de Separación de Basura</h1>
                             <p class="lead text-secondary mt-3">Plataforma empresarial para la administración, monitoreo y clasificación automática de residuos reciclables mediante sensores inteligentes.</p>
                             <div class="mt-4">
-                                <?= Html::a('Administrar Residuos', ['tipo-residuo/index'], ['class' => 'btn btn-success btn-lg me-2']) ?>
-                                <?= Html::a('Ver Reportes', ['reporte/index'], ['class' => 'btn btn-outline-dark btn-lg']) ?>
+                                <?= Html::a('Administrar Residuos', ['tipo-residuo/index'], ['class' => 'btn btn-success btn-lg me-2', 'style' => 'border-radius:12px; font-weight:600;']) ?>
+                                <?= Html::a('Ver Reportes', ['reporte/index'], ['class' => 'btn btn-outline-dark btn-lg', 'style' => 'border-radius:12px; font-weight:600;']) ?>
                             </div>
                         </div>
                         <div class="col-md-4 text-center">
@@ -93,48 +74,52 @@ function obtenerBgProgreso($nivel) {
 
             <h5 class="fw-bold text-dark mb-3">Monitoreo Físico de Contenedores</h5>
             <div class="row mb-4">
+                
                 <div class="col-md-4 mb-3">
-                    <div class="card border-0 shadow-sm h-100 p-2">
+                    <div class="card border-0 shadow-sm h-100 p-2" style="border-radius:16px;">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h6 class="text-secondary m-0">Contenedor Plástico 🥤</h6>
+                                    <h6 class="text-secondary m-0 fw-bold">Contenedor Plástico 🥤</h6>
                                     <h2 class="fw-bold mt-2 <?= obtenerColorPorcentaje($ultimoPlastico) ?>"><?= $ultimoPlastico ?>%</h2>
                                 </div>
                                 <span class="fs-2">📊</span>
                             </div>
-                            <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress mt-2" style="height: 6px; border-radius:10px;">
                                 <div class="progress-bar <?= obtenerBgProgreso($ultimoPlastico) ?>" style="width: <?= $ultimoPlastico ?>%"></div>
                             </div>
+                            
                             <div class="mt-3 d-flex gap-2 align-items-center flex-wrap">
                                 <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="ajustar">
                                     <input type="hidden" name="contenedor" value="Plástico">
                                     <input type="hidden" name="nivel" value="<?= min(100, $ultimoPlastico + 10) ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2 fs-7">+10%</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2 fs-7" style="border-radius:8px; font-weight:500;">+10%</button>
                                 <?= Html::endForm() ?>
+
                                 <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="vaciar">
                                     <input type="hidden" name="contenedor" value="Plástico">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7">Vaciar</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7" style="border-radius:8px; font-weight:500;">Vaciar</button>
                                 <?= Html::endForm() ?>
-                                <?= Html::a('Gestionar CRUD', ['site/crud-plastico'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7']) ?>
+
+                                <?= Html::a('Gestionar CRUD', ['site/crud-plastico'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7', 'style' => 'border-radius:8px; font-weight:500;']) ?>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <div class="card border-0 shadow-sm h-100 p-2">
+                    <div class="card border-0 shadow-sm h-100 p-2" style="border-radius:16px;">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h6 class="text-secondary m-0">Contenedor Metal 🥫</h6>
+                                    <h6 class="text-secondary m-0 fw-bold">Contenedor Metal 🥫</h6>
                                     <h2 class="fw-bold mt-2 <?= obtenerColorPorcentaje($ultimoMetal) ?>"><?= $ultimoMetal ?>%</h2>
                                 </div>
                                 <span class="fs-2">📊</span>
                             </div>
-                            <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress mt-2" style="height: 6px; border-radius:10px;">
                                 <div class="progress-bar <?= obtenerBgProgreso($ultimoMetal) ?>" style="width: <?= $ultimoMetal ?>%"></div>
                             </div>
                             <div class="mt-3 d-flex gap-2 align-items-center flex-wrap">
@@ -142,30 +127,32 @@ function obtenerBgProgreso($nivel) {
                                     <input type="hidden" name="accion_tipo" value="ajustar">
                                     <input type="hidden" name="contenedor" value="Metal">
                                     <input type="hidden" name="nivel" value="<?= min(100, $ultimoMetal + 10) ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2 fs-7">+10%</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2 fs-7" style="border-radius:8px; font-weight:500;">+10%</button>
                                 <?= Html::endForm() ?>
+
                                 <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="vaciar">
                                     <input type="hidden" name="contenedor" value="Metal">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7">Vaciar</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7" style="border-radius:8px; font-weight:500;">Vaciar</button>
                                 <?= Html::endForm() ?>
-                                <?= Html::a('Gestionar CRUD', ['site/crud-metal'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7']) ?>
+
+                                <?= Html::a('Gestionar CRUD', ['site/crud-metal'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7', 'style' => 'border-radius:8px; font-weight:500;']) ?>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <div class="card border-0 shadow-sm h-100 p-2">
+                    <div class="card border-0 shadow-sm h-100 p-2" style="border-radius:16px;">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h6 class="text-secondary m-0">Contenedor Otros 🗑️</h6>
+                                    <h6 class="text-secondary m-0 fw-bold">Contenedor Otros 🗑️</h6>
                                     <h2 class="fw-bold mt-2 <?= obtenerColorPorcentaje($ultimoOtros) ?>"><?= $ultimoOtros ?>%</h2>
                                 </div>
                                 <span class="fs-2">📊</span>
                             </div>
-                            <div class="progress mt-2" style="height: 6px;">
+                            <div class="progress mt-2" style="height: 6px; border-radius:10px;">
                                 <div class="progress-bar <?= obtenerBgProgreso($ultimoOtros) ?>" style="width: <?= $ultimoOtros ?>%"></div>
                             </div>
                             <div class="mt-3 d-flex gap-2 align-items-center flex-wrap">
@@ -173,14 +160,16 @@ function obtenerBgProgreso($nivel) {
                                     <input type="hidden" name="accion_tipo" value="ajustar">
                                     <input type="hidden" name="contenedor" value="Otros">
                                     <input type="hidden" name="nivel" value="<?= min(100, $ultimoOtros + 10) ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2 fs-7">+10%</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2 fs-7" style="border-radius:8px; font-weight:500;">+10%</button>
                                 <?= Html::endForm() ?>
+
                                 <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="vaciar">
                                     <input type="hidden" name="contenedor" value="Otros">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7">Vaciar</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7" style="border-radius:8px; font-weight:500;">Vaciar</button>
                                 <?= Html::endForm() ?>
-                                <?= Html::a('Gestionar CRUD', ['site/crud-otros'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7']) ?>
+
+                                <?= Html::a('Gestionar CRUD', ['site/crud-otros'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7', 'style' => 'border-radius:8px; font-weight:500;']) ?>
                             </div>
                         </div>
                     </div>
@@ -189,53 +178,53 @@ function obtenerBgProgreso($nivel) {
 
             <div class="row">
                 <div class="col-md-3 mb-4">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
+                    <div class="card border-0 shadow-sm" style="border-radius:12px;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6 class="text-secondary">Historial Logs</h6>
-                                    <h2 class="fw-bold text-success"><?= $totalReportesCount ?></h2>
+                                    <h6 class="text-secondary small m-0 fw-bold">Historial Logs</h6>
+                                    <h2 class="fw-bold text-success mt-1 mb-0"><?= $totalReportesCount ?></h2>
                                 </div>
-                                <i class="bi bi-recycle" style="font-size: 45px; color:#198754;"></i>
+                                <i class="bi bi-recycle" style="font-size: 40px; color:#198754;"></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 mb-4">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
+                    <div class="card border-0 shadow-sm" style="border-radius:12px;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6 class="text-secondary">Sensores Activos</h6>
-                                    <h2 class="fw-bold text-primary">3</h2>
+                                    <h6 class="text-secondary small m-0 fw-bold">Sensores Activos</h6>
+                                    <h2 class="fw-bold text-primary mt-1 mb-0">3</h2>
                                 </div>
-                                <i class="bi bi-cpu" style="font-size: 45px; color:#0d6efd;"></i>
+                                <i class="bi bi-cpu" style="font-size: 40px; color:#0d6efd;"></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 mb-4">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
+                    <div class="card border-0 shadow-sm" style="border-radius:12px;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6 class="text-secondary">Zonas Enlace</h6>
-                                    <h2 class="fw-bold text-warning">Firebase</h2>
+                                    <h6 class="text-secondary small m-0 fw-bold">Zonas Enlace</h6>
+                                    <h2 class="fw-bold text-warning mt-1 mb-0">Firebase</h2>
                                 </div>
-                                <i class="bi bi-trash3" style="font-size: 45px; color:#ffc107;"></i>
+                                <i class="bi bi-trash3" style="font-size: 40px; color:#ffc107;"></i>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3 mb-4">
-                    <div class="card border-0 shadow-sm">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between">
+                    <div class="card border-0 shadow-sm" style="border-radius:12px;">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h6 class="text-secondary">Críticos (Llenos)</h6>
-                                    <h2 class="fw-bold text-danger"><?= $alertasCriticas ?></h2>
+                                    <h6 class="text-secondary small m-0 fw-bold">Críticos (Llenos)</h6>
+                                    <h2 class="fw-bold text-danger mt-1 mb-0"><?= $alertasCriticas ?></h2>
                                 </div>
-                                <i class="bi bi-bell" style="font-size: 45px; color:#dc3545;"></i>
+                                <i class="bi bi-bell" style="font-size: 40px; color:#dc3545;"></i>
                             </div>
                         </div>
                     </div>
@@ -244,11 +233,11 @@ function obtenerBgProgreso($nivel) {
 
             <div class="row">
                 <div class="col-lg-4 mb-4">
-                    <div class="card border-0 shadow-sm h-100">
+                    <div class="card border-0 shadow-sm h-100" style="border-radius:14px; overflow:hidden;">
                         <div class="card-header bg-dark text-white py-3">
                             <h5 class="mb-0 fw-bold fs-6">Ingreso Manual Especial</h5>
                         </div>
-                        <div class="card-body p-4">
+                        <div class="card-body p-4 bg-white">
                             <?= Html::beginForm(['site/index'], 'post') ?>
                                 <input type="hidden" name="accion_tipo" value="manual">
                                 <div class="mb-3">
@@ -259,18 +248,18 @@ function obtenerBgProgreso($nivel) {
                                     <label class="form-label text-muted small fw-bold">Nivel de Entrada (%)</label>
                                     <input type="number" name="nuevo_nivel" class="form-control" min="0" max="100" placeholder="0 - 100" required>
                                 </div>
-                                <button type="submit" class="btn btn-success w-100 fw-bold shadow-sm mt-2">Enviar a Firestore</button>
+                                <button type="submit" class="btn btn-success w-100 fw-bold shadow-sm mt-2" style="border-radius:10px; py:2px;">Enviar a Firestore</button>
                             <?= Html::endForm() ?>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-8 mb-4">
-                    <div class="card border-0 shadow-sm h-100">
+                    <div class="card border-0 shadow-sm h-100" style="border-radius:14px; overflow:hidden;">
                         <div class="card-header bg-success text-white py-3">
                             <h5 class="mb-0 fw-bold fs-6">Actividad Reciente (Firestore Live Logs)</h5>
                         </div>
-                        <div class="card-body p-0">
+                        <div class="card-body p-0 bg-white">
                             <div class="table-responsive" style="max-height: 330px; overflow-y: auto;">
                                 <table class="table table-hover align-middle mb-0">
                                     <thead class="table-light sticky-top">
