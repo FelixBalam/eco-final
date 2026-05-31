@@ -5,32 +5,21 @@ use yii\helpers\Html;
 
 AppAsset::register($this);
 
+// Detectar la acción actual para iluminar la opción correcta en el menú
+$accionActual = Yii::$app->controller->action->id;
 ?>
-
 <?php $this->beginPage() ?>
-
 <!DOCTYPE html>
-
 <html lang="<?= Yii::$app->language ?>">
-
 <head>
-
     <meta charset="<?= Yii::$app->charset ?>">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-
     <title><?= Html::encode($this->title) ?></title>
 
-    <!-- GOOGLE FONT -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- ESTILOS -->
     <style>
-
         *{
             margin:0;
             padding:0;
@@ -78,20 +67,21 @@ AppAsset::register($this);
         /* MENU */
         .menu-title{
             color:#9ca3af;
-            font-size:12px;
+            font-size:11px;
             text-transform:uppercase;
-            margin:25px 10px 10px;
+            margin:20px 10px 8px;
             letter-spacing:1px;
+            font-weight: 700;
         }
 
         .sidebar-link{
             display:block;
-            padding:14px 18px;
+            padding:12px 16px;
             color:#d1d5db;
-            border-radius:14px;
-            margin-bottom:8px;
+            border-radius:12px;
+            margin-bottom:6px;
             transition:.3s;
-            font-size:15px;
+            font-size:14px;
             font-weight:500;
         }
 
@@ -126,7 +116,7 @@ AppAsset::register($this);
         }
 
         .topbar-title{
-            font-size:28px;
+            font-size:26px;
             font-weight:700;
             color:#16a34a;
         }
@@ -148,18 +138,12 @@ AppAsset::register($this);
             background:#22c55e;
             border-radius:20px;
         }
-
     </style>
-
     <?php $this->head() ?>
-
 </head>
-
 <body>
-
 <?php $this->beginBody() ?>
 
-<!-- SIDEBAR -->
 <div class="sidebar">
 
     <div class="logo">
@@ -171,106 +155,82 @@ AppAsset::register($this);
     </div>
 
     <div class="menu-title">
-        Principal
+        Monitoreo y Control
     </div>
 
-    <?= Html::a('🏠 Dashboard', ['/site/index'], [
-        'class' => 'sidebar-link'
+    <?= Html::a('🏠 Dashboard Principal', ['/site/index'], [
+        'class' => 'sidebar-link' . ($accionActual === 'index' ? ' active' : '')
     ]) ?>
 
-    <?= Html::a('♻ Tipos de Residuos', ['/tipo-residuo/index'], [
-        'class' => 'sidebar-link'
+    <div class="menu-title">
+        Analítica de Datos
+    </div>
+
+    <?= Html::a('📈 Estadísticas Globales', ['/site/estadisticas'], [
+        'class' => 'sidebar-link' . ($accionActual === 'estadisticas' ? ' active' : '')
     ]) ?>
 
-    <?= Html::a('🤖 Sensores', ['/sensor/index'], [
-        'class' => 'sidebar-link'
+    <?= Html::a('🚨 Centro de Alertas', ['/site/alertas-simulador'], [
+        'class' => 'sidebar-link' . ($accionActual === 'alertas-simulador' ? ' active' : '')
     ]) ?>
 
-    <?= Html::a('📦 Contenedores', ['/contenedor/index'], [
-        'class' => 'sidebar-link'
+    <div class="menu-title">
+        Gestión Individual
+    </div>
+
+    <?= Html::a('🥤 Módulo Plástico', ['/site/crud-plastico'], [
+        'class' => 'sidebar-link' . ($accionActual === 'crud-plastico' ? ' active' : '')
     ]) ?>
 
-    <?= Html::a('🚛 Recolección', ['/ruta/index'], [
-        'class' => 'sidebar-link'
+    <?= Html::a('🥫 Módulo Metal', ['/site/crud-metal'], [
+        'class' => 'sidebar-link' . ($accionActual === 'crud-metal' ? ' active' : '')
     ]) ?>
 
-    <?= Html::a('🔔 Alertas', ['/alerta/index'], [
-        'class' => 'sidebar-link'
-    ]) ?>
-
-    <?= Html::a('👷 Empleados', ['/empleado/index'], [
-        'class' => 'sidebar-link'
-    ]) ?>
-
-    <?= Html::a('📊 Reportes', ['/reporte/index'], [
-        'class' => 'sidebar-link'
+    <?= Html::a('🗑️ Módulo Otros', ['/site/crud-otros'], [
+        'class' => 'sidebar-link' . ($accionActual === 'crud-otros' ? ' active' : '')
     ]) ?>
 
     <div class="menu-title">
         Administración
     </div>
 
-    <?= Html::a('👤 Usuarios', ['/user/index'], [
-        'class' => 'sidebar-link'
+    <?= Html::a('👤 Usuarios del Sistema', ['/user/index'], [
+        'class' => 'sidebar-link' . ($accionActual === 'index' && Yii::$app->controller->id === 'user' ? ' active' : '')
     ]) ?>
 
-    <?= Html::a('🛡 Roles', ['/rol/index'], [
-        'class' => 'sidebar-link'
-    ]) ?>
-
-    <?= Html::a('📁 Perfiles', ['/perfil/index'], [
-        'class' => 'sidebar-link'
-    ]) ?>
-
-    <?= Html::a('⚙ Tipos de Usuario', ['/tipo-usuario/index'], [
-        'class' => 'sidebar-link'
-    ]) ?>
-
-    <?= Html::a('🔄 Estados', ['/estado/index'], [
-        'class' => 'sidebar-link'
+    <?= Html::a('♻️ Catálogo Residuos', ['/site/catalogo-residuos'], [
+        'class' => 'sidebar-link' . ($accionActual === 'catalogo-residuos' ? ' active' : '')
     ]) ?>
 
 </div>
 
-<!-- CONTENIDO -->
 <div class="main-content">
 
-    <!-- TOPBAR -->
     <div class="topbar">
-
         <div class="topbar-title">
-            Dashboard Principal
+            <?= Html::encode($this->title) ?>
         </div>
 
         <div>
-
             <?php if (!Yii::$app->user->isGuest): ?>
-
-                <span style="margin-right:15px;color:#6b7280;">
-                    <?= date('d/m/Y') ?>
+                <span style="margin-right:15px;color:#6b7280; font-weight:500;">
+                    📅 <?= date('d/m/Y') ?>
                 </span>
-
                 <?= Html::a(
-                    'Cerrar Sesión (' .
-                    Yii::$app->user->identity->username .
-                    ')',
+                    'Cerrar Sesión (' . Yii::$app->user->identity->username . ')',
                     ['/site/logout'],
                     [
                         'data-method' => 'post',
-                        'class' => 'btn btn-success'
+                        'class' => 'btn btn-sm btn-success fw-bold px-3 py-2',
+                        'style' => 'border-radius:10px;'
                     ]
                 ) ?>
-
             <?php endif; ?>
-
         </div>
-
     </div>
 
-    <!-- CONTENIDO DINÁMICO -->
     <?= $content ?>
 
-    <!-- FOOTER -->
     <div class="footer">
         © PHANTOMS <?= date('Y') ?> | EcoSort Admin
     </div>
@@ -278,9 +238,6 @@ AppAsset::register($this);
 </div>
 
 <?php $this->endBody() ?>
-
 </body>
-
 </html>
-
 <?php $this->endPage() ?>

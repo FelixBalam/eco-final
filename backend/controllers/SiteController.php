@@ -23,7 +23,15 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['index', 'crud-plastico', 'crud-metal', 'crud-otros'],
+                        'actions' => [
+                            'index', 
+                            'crud-plastico', 
+                            'crud-metal', 
+                            'crud-otros',
+                            'estadisticas',
+                            'alertas-simulador',
+                            'catalogo-residuos'
+                        ],
                         'allow' => true,
                         'roles' => ['@'],
                         'matchCallback' => function ($rule, $action) {
@@ -56,6 +64,9 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * Dashboard Principal - Procesador de Monitoreo Físico con Redirección Estricta Anti-Duplicados
+     */
     public function actionIndex()
     {
         $firebase = new \backend\components\FirebaseService();
@@ -64,17 +75,21 @@ class SiteController extends Controller
             $post = Yii::$app->request->post();
             
             if (isset($post['accion_tipo'])) {
-                if ($post['accion_tipo'] == 'ajustar') {
+                if ($post['accion_tipo'] == 'ajustar' && isset($post['contenedor'], $post['nivel'])) {
                     $firebase->createReporte($post['contenedor'], $post['nivel'], 'Aumento Manual Web');
                 } 
-                elseif ($post['accion_tipo'] == 'vaciar') {
+                elseif ($post['accion_tipo'] == 'vaciar' && isset($post['contenedor'])) {
                     $firebase->createReporte($post['contenedor'], 0, 'Contenedor vaciado Web');
                 } 
-                elseif ($post['accion_tipo'] == 'manual') {
+                elseif ($post['accion_tipo'] == 'manual' && isset($post['nuevo_nombre'], $post['nuevo_nivel'])) {
                     $firebase->createReporte($post['nuevo_nombre'], $post['nuevo_nivel'], 'Ingreso Manual Web');
                 }
                 
-                return $this->refresh();
+                // CONTROL DE SEGURIDAD EXTREMA: Limpia la memoria del buffer de salida de Yii
+                Yii::$app->response->clearOutputBuffers();
+                
+                // Redirección absoluta que destruye los datos POST guardados por el navegador
+                return $this->redirect(['site/index'])->send();
             }
         }
 
@@ -107,6 +122,30 @@ class SiteController extends Controller
     public function actionCrudOtros()
     {
         return $this->render('crud_otros');
+    }
+
+    /**
+     * Módulo de Analítica y Estadísticas con Chart.js
+     */
+    public function actionEstadisticas()
+    {
+        return $this->render('estadisticas');
+    }
+
+    /**
+     * Centro de Alertas Críticas y Avisos de los Contenedores
+     */
+    public function actionAlertasSimulador()
+    {
+        return $this->render('alertas_simulador');
+    }
+
+    /**
+     * Muestra la vista estética del Catálogo de Residuos (Solo Vista para Exposición)
+     */
+    public function actionCatalogoResiduos()
+    {
+        return $this->render('catalogo_residuos');
     }
 
     public function actionLogin()
