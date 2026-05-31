@@ -24,18 +24,24 @@ class UserController extends Controller
         return array_merge(
             parent::behaviors(),
             [
-                // Control de acceso opcional (puedes activarlo después)
-                /* 'access' => [
-                    'class' => AccessControl::class,
+                'access' => [
+                    'class' => AccessControl::className(),
                     'rules' => [
                         [
+                            // Se restringen TODAS las acciones operativas del CRUD de personal
+                            'actions' => ['index', 'view', 'create', 'update', 'delete'],
                             'allow' => true,
-                            'roles' => ['@'],
+                            'roles' => ['@'], // Obligatorio haber iniciado sesión
+                            'matchCallback' => function ($rule, $action) {
+                                // CORREGIDO: Usando el método nativo existente en tu PermisosHelpers
+                                return PermisosHelpers::requerirMinimoRol('SuperUsuario')
+                                    && PermisosHelpers::requerirEstado('Activo');
+                            }
                         ],
                     ],
-                ], */
+                ],
                 'verbs' => [
-                    'class' => VerbFilter::class,
+                    'class' => VerbFilter::className(),
                     'actions' => [
                         'delete' => ['POST'],
                     ],
@@ -49,8 +55,6 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        PermisosHelpers::requerirMinimoRol('Admin');
-
         $searchModel = new UserSearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
 
@@ -65,25 +69,41 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
-        PermisosHelpers::requerirMinimoRol('Admin');
-
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new User model.
+     * Creates a new User model with Native Password Hashing (Corregido sin propiedad status).
      */
     public function actionCreate()
     {
-        PermisosHelpers::requerirMinimoRol('Admin');
-
         $model = new User();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                $postData = $this->request->post();
+                
+                // Capturar el campo personalizado de la contraseña desde el formulario
+                $passwordPlano = isset($postData['password_plano']) ? trim($postData['password_plano']) : '';
+
+                if (!empty($passwordPlano)) {
+                    // Encriptar contraseña y generar los tokens obligatorios de Yii2
+                    $model->setPassword($passwordPlano);
+                    $model->generateAuthKey();
+                    
+                    // Marcas de tiempo de creación y actualización para control interno
+                    $model->created_at = time();
+                    $model->updated_at = time();
+
+                    if ($model->save()) {
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                } else {
+                    // Mensaje de error manual en el modelo si se envía vacío
+                    $model->addError('username', 'Debe asignar una contraseña válida para el acceso.');
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -99,12 +119,23 @@ class UserController extends Controller
      */
     public function actionUpdate($id)
     {
-        PermisosHelpers::requerirMinimoRol('Admin');
-
         $model = $this->findModel($id);
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            $postData = $this->request->post();
+            $passwordPlano = isset($postData['password_plano']) ? trim($postData['password_plano']) : '';
+            
+            // Si deciden escribir una contraseña nueva en el formulario, se actualiza el hash
+            if (!empty($passwordPlano)) {
+                $model->setPassword($passwordPlano);
+                $model->generateAuthKey();
+            }
+            
+            $model->updated_at = time();
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -117,8 +148,6 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        PermisosHelpers::requerirMinimoRol('Admin');
-
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
