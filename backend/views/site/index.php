@@ -10,7 +10,6 @@ $ultimoPlastico = 0;
 $ultimoMetal = 0;
 $ultimoOtros = 0;
 
-// Variables de control para saber si ya encontramos el registro más reciente
 $encontradoPlastico = false;
 $encontradoMetal = false;
 $encontradoOtros = false;
@@ -107,18 +106,19 @@ function obtenerBgProgreso($nivel) {
                             <div class="progress mt-2" style="height: 6px;">
                                 <div class="progress-bar <?= obtenerBgProgreso($ultimoPlastico) ?>" style="width: <?= $ultimoPlastico ?>%"></div>
                             </div>
-                            <div class="mt-3 d-flex gap-2">
-                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline']) ?>
+                            <div class="mt-3 d-flex gap-2 align-items-center flex-wrap">
+                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="ajustar">
                                     <input type="hidden" name="contenedor" value="Plástico">
                                     <input type="hidden" name="nivel" value="<?= min(100, $ultimoPlastico + 10) ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-primary py-0 px-2 fs-7">+10%</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2 fs-7">+10%</button>
                                 <?= Html::endForm() ?>
-                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline']) ?>
+                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="vaciar">
                                     <input type="hidden" name="contenedor" value="Plástico">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-7">Vaciar</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7">Vaciar</button>
                                 <?= Html::endForm() ?>
+                                <?= Html::a('Gestionar CRUD', ['site/crud-plastico'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7']) ?>
                             </div>
                         </div>
                     </div>
@@ -137,18 +137,19 @@ function obtenerBgProgreso($nivel) {
                             <div class="progress mt-2" style="height: 6px;">
                                 <div class="progress-bar <?= obtenerBgProgreso($ultimoMetal) ?>" style="width: <?= $ultimoMetal ?>%"></div>
                             </div>
-                            <div class="mt-3 d-flex gap-2">
-                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline']) ?>
+                            <div class="mt-3 d-flex gap-2 align-items-center flex-wrap">
+                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="ajustar">
                                     <input type="hidden" name="contenedor" value="Metal">
                                     <input type="hidden" name="nivel" value="<?= min(100, $ultimoMetal + 10) ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-primary py-0 px-2 fs-7">+10%</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2 fs-7">+10%</button>
                                 <?= Html::endForm() ?>
-                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline']) ?>
+                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="vaciar">
                                     <input type="hidden" name="contenedor" value="Metal">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-7">Vaciar</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7">Vaciar</button>
                                 <?= Html::endForm() ?>
+                                <?= Html::a('Gestionar CRUD', ['site/crud-metal'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7']) ?>
                             </div>
                         </div>
                     </div>
@@ -167,18 +168,19 @@ function obtenerBgProgreso($nivel) {
                             <div class="progress mt-2" style="height: 6px;">
                                 <div class="progress-bar <?= obtenerBgProgreso($ultimoOtros) ?>" style="width: <?= $ultimoOtros ?>%"></div>
                             </div>
-                            <div class="mt-3 d-flex gap-2">
-                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline']) ?>
+                            <div class="mt-3 d-flex gap-2 align-items-center flex-wrap">
+                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="ajustar">
                                     <input type="hidden" name="contenedor" value="Otros">
                                     <input type="hidden" name="nivel" value="<?= min(100, $ultimoOtros + 10) ?>">
-                                    <button type="submit" class="btn btn-sm btn-outline-primary py-0 px-2 fs-7">+10%</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary py-1 px-2 fs-7">+10%</button>
                                 <?= Html::endForm() ?>
-                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline']) ?>
+                                <?= Html::beginForm(['site/index'], 'post', ['class' => 'd-inline m-0']) ?>
                                     <input type="hidden" name="accion_tipo" value="vaciar">
                                     <input type="hidden" name="contenedor" value="Otros">
-                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-0 px-2 fs-7">Vaciar</button>
+                                    <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7">Vaciar</button>
                                 <?= Html::endForm() ?>
+                                <?= Html::a('Gestionar CRUD', ['site/crud-otros'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7']) ?>
                             </div>
                         </div>
                     </div>
