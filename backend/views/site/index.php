@@ -49,6 +49,12 @@ function obtenerBgProgreso($nivel) {
 }
 ?>
 
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+
 <div class="container-fluid p-0">
     <div class="bg-light min-vh-100">
 
@@ -59,10 +65,10 @@ function obtenerBgProgreso($nivel) {
                     <div class="row align-items-center">
                         <div class="col-md-8">
                             <h1 class="display-5 fw-bold text-success">♻ Sistema Inteligente de Separación de Basura</h1>
-                            <p class="lead text-secondary mt-3">Plataforma empresarial para la administración, monitoreo y clasificación automática de residuos reciclables mediante sensores inteligentes.</p>
+                            <p class="lead text-secondary mt-3">Plataforma empresarial para la administración, monitoreo y classification automática de residuos reciclables mediante sensores inteligentes.</p>
                             <div class="mt-4">
-                                <?= Html::a('Administrar Residuos', ['tipo-residuo/index'], ['class' => 'btn btn-success btn-lg me-2', 'style' => 'border-radius:12px; font-weight:600;']) ?>
-                                <?= Html::a('Ver Reportes', ['reporte/index'], ['class' => 'btn btn-outline-dark btn-lg', 'style' => 'border-radius:12px; font-weight:600;']) ?>
+                                <?= Html::a('Administrar Residuos', '#monitoreo-ancla', ['class' => 'btn btn-success btn-lg me-2', 'style' => 'border-radius:12px; font-weight:600;']) ?>
+                                <?= Html::a('Ver Reportes', ['site/estadisticas'], ['class' => 'btn btn-outline-dark btn-lg', 'style' => 'border-radius:12px; font-weight:600;']) ?>
                             </div>
                         </div>
                         <div class="col-md-4 text-center">
@@ -72,7 +78,7 @@ function obtenerBgProgreso($nivel) {
                 </div>
             </div>
 
-            <h5 class="fw-bold text-dark mb-3">Monitoreo Físico de Contenedores</h5>
+            <h5 id="monitoreo-ancla" class="fw-bold text-dark mb-3" style="scroll-margin-top: 100px;">Monitoreo Físico de Contenedores</h5>
             <div class="row mb-4">
                 
                 <div class="col-md-4 mb-3">
@@ -103,7 +109,7 @@ function obtenerBgProgreso($nivel) {
                                     <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7" style="border-radius:8px; font-weight:500;">Vaciar</button>
                                 <?= Html::endForm() ?>
 
-                                <?= Html::a('Gestionar CRUD', ['site/crud-plastico'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7', 'style' => 'border-radius:8px; font-weight:500;']) ?>
+                                <?= Html::a('GESTIONAR PLÁSTICO', ['site/crud-plastico'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7', 'style' => 'border-radius:8px; font-weight:500;']) ?>
                             </div>
                         </div>
                     </div>
@@ -136,7 +142,7 @@ function obtenerBgProgreso($nivel) {
                                     <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7" style="border-radius:8px; font-weight:500;">Vaciar</button>
                                 <?= Html::endForm() ?>
 
-                                <?= Html::a('Gestionar CRUD', ['site/crud-metal'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7', 'style' => 'border-radius:8px; font-weight:500;']) ?>
+                                <?= Html::a('GESTIONAR METAL', ['site/crud-metal'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7', 'style' => 'border-radius:8px; font-weight:500;']) ?>
                             </div>
                         </div>
                     </div>
@@ -169,7 +175,7 @@ function obtenerBgProgreso($nivel) {
                                     <button type="submit" class="btn btn-sm btn-outline-secondary py-1 px-2 fs-7" style="border-radius:8px; font-weight:500;">Vaciar</button>
                                 <?= Html::endForm() ?>
 
-                                <?= Html::a('Gestionar CRUD', ['site/crud-otros'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7', 'style' => 'border-radius:8px; font-weight:500;']) ?>
+                                <?= Html::a('GESTIONAR OTROS', ['site/crud-otros'], ['class' => 'btn btn-sm btn-outline-dark py-1 px-2 fs-7', 'style' => 'border-radius:8px; font-weight:500;']) ?>
                             </div>
                         </div>
                     </div>
@@ -235,7 +241,7 @@ function obtenerBgProgreso($nivel) {
                 <div class="col-lg-4 mb-4">
                     <div class="card border-0 shadow-sm h-100" style="border-radius:14px; overflow:hidden;">
                         <div class="card-header bg-dark text-white py-3">
-                            <h5 class="mb-0 fw-bold fs-6">Ingreso Manual Especial</h5>
+                            <h5 class="mb-0 fw-bold fs-6">Ingreso Manual</h5>
                         </div>
                         <div class="card-body p-4 bg-white">
                             <?= Html::beginForm(['site/index'], 'post') ?>
@@ -248,7 +254,7 @@ function obtenerBgProgreso($nivel) {
                                     <label class="form-label text-muted small fw-bold">Nivel de Entrada (%)</label>
                                     <input type="number" name="nuevo_nivel" class="form-control" min="0" max="100" placeholder="0 - 100" required>
                                 </div>
-                                <button type="submit" class="btn btn-success w-100 fw-bold shadow-sm mt-2" style="border-radius:10px; py:2px;">Enviar a Firestore</button>
+                                <button type="submit" class="btn btn-success w-100 fw-bold shadow-sm mt-2" style="border-radius:10px; py:2px;">GUARDAR</button>
                             <?= Html::endForm() ?>
                         </div>
                     </div>
